@@ -20,7 +20,7 @@ namespace Calculator
 
         private void InitializeCalculator()
         {
-            this.BackColor = Color.Purple;
+            this.BackColor = Color.Gray;
 
             string buttonName = null;
             Button button = null;
@@ -31,6 +31,12 @@ namespace Calculator
                 button.Text = i.ToString();
             }
 
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            Display.Text += button.Text;
         }
     }
 }
