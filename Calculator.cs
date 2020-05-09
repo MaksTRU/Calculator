@@ -21,7 +21,9 @@ namespace Calculator
         private void InitializeCalculator()
         {
             this.BackColor = Color.Gray;
-
+            Display.Font = new Font("Roboto", 22f);
+            Display.Text = "0";
+            
             string buttonName = null;
             Button button = null;
             for(int i = 0; i < 10; i++)
@@ -32,27 +34,26 @@ namespace Calculator
                 button.BackColor = Color.White;
                 button.Font = new Font("Roboto", 22f);
             }
-
         }
 
         private void Button_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            Display.Text += button.Text;
+            if (Display.Text == "0")
+            {
+                Display.Text = button.Text;
+            }
+            else
+            {
+                Display.Text += button.Text;
+            }
         }
 
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
-            if (!Display.Text.Contains("."))
+            if (!Display.Text.Contains(","))
             {
-                if (Display.Text == string.Empty)
-                {
-                    Display.Text += "0.";
-                }
-                else
-                {
-                    Display.Text += ".";
-                }
+                Display.Text += ",";
             }
         }
 
@@ -65,10 +66,23 @@ namespace Calculator
             }
             else
             {
-                s = string.Empty;
+                s = "0";
             }
-
             Display.Text = s;
+        }
+
+        private void buttonSign_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double number = Convert.ToDouble(Display.Text);
+                number *= -1;
+                Display.Text = Convert.ToString(number);
+            }
+            catch
+            {
+
+            }
         }
     }
 }
