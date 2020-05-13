@@ -12,6 +12,10 @@ namespace Calculator
 {
     public partial class Form1 : Form
     {
+        double numOne = 0;
+        double numTwo = 0;
+        string operation = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -83,6 +87,39 @@ namespace Calculator
             {
 
             }
+        }
+
+        private void Operation_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            numOne = Convert.ToDouble(Display.Text);
+            Display.Text = string.Empty;
+            operation = button.Text;
+        }
+
+        private void buttonResult_Click(object sender, EventArgs e)
+        {
+            numTwo = Convert.ToDouble(Display.Text);
+            double result = 0;
+
+            if(operation == "+")
+            {
+                result = numOne + numTwo;
+            }
+            if (operation == "-")
+            {
+                result = numOne - numTwo;
+            }
+            if (operation == "x")
+            {
+                result = numOne * numTwo;
+            }
+            if (operation == "/")
+            {
+                result = numOne / numTwo;
+            }
+
+            Display.Text = result.ToString();
         }
     }
 }
