@@ -17,6 +17,10 @@ namespace Calculator
         double numOne = 0;
         double numTwo = 0;
         string operation = null;
+        bool scienceMode = false;
+        const int widthSmall = 378;
+        const int widthLarge = 658;
+
 
         public Form1()
         {
@@ -27,7 +31,12 @@ namespace Calculator
         private void InitializeCalculator()
         {
             decimalSeparator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+           
+            this.Width = widthSmall;
             this.BackColor = Color.Gray;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;
             Display.Font = new Font("Roboto", 22f);
             Display.Text = "0";
             Display.TabStop = false;
@@ -112,6 +121,12 @@ namespace Calculator
             numOne = Convert.ToDouble(Display.Text);
             Display.Text = string.Empty;
             operation = button.Text;
+
+            if (button.Text == "Sqrt")
+            {
+                Display.Text = Math.Sqrt(numOne).ToString();
+                return;
+            }
         }
 
         private void buttonResult_Click(object sender, EventArgs e)
@@ -123,20 +138,43 @@ namespace Calculator
             {
                 result = numOne + numTwo;
             }
-            if (operation == "-")
+            else if (operation == "-")
             {
                 result = numOne - numTwo;
             }
-            if (operation == "x")
+            else if (operation == "x")
             {
                 result = numOne * numTwo;
             }
-            if (operation == "/")
+            else if (operation == "/")
             {
                 result = numOne / numTwo;
             }
-
+            else if (operation == "^")
+            {
+                result = Math.Pow(numOne, numTwo);
+            }
             Display.Text = result.ToString();
+        }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            Display.Text = "0";
+            numOne = 0;
+            numTwo = 0;
+        }
+
+        private void buttonScience_Click(object sender, EventArgs e)
+        {
+            if (scienceMode)
+            {
+                this.Width = widthSmall;
+            }
+            else
+            {
+                this.Width = widthLarge;
+            }
+            scienceMode = !scienceMode;
         }
     }
 }
