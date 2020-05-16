@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Calculator
 {
     public partial class Form1 : Form
     {
+        char decimalSeparator;
         double numOne = 0;
         double numTwo = 0;
         string operation = null;
@@ -24,10 +26,12 @@ namespace Calculator
 
         private void InitializeCalculator()
         {
+            decimalSeparator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             this.BackColor = Color.Gray;
             Display.Font = new Font("Roboto", 22f);
             Display.Text = "0";
-            
+            Display.TabStop = false;
+
             string buttonName = null;
             Button button = null;
             for(int i = 0; i < 10; i++)
@@ -55,9 +59,16 @@ namespace Calculator
 
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
-            if (!Display.Text.Contains(","))
+            if (!Display.Text.Contains(decimalSeparator))
             {
-                Display.Text += ",";
+                if (Display.Text == string.Empty)
+                {
+                    Display.Text += "0" + decimalSeparator;
+                }
+                else
+                {
+                    Display.Text += decimalSeparator;
+                }
             }
         }
 
@@ -66,7 +77,13 @@ namespace Calculator
             string s = Display.Text;
             if (s.Length > 1)
             {
-                s = s.Substring(0, s.Length - 1);
+                if ((s.Contains("-")) && (s.Length == 2) || s.Substring(s.Length - 1, 1) == decimalSeparator.ToString())
+                {
+                    s = "0";
+                    Display.Text = s;
+                    return;
+                }
+                s = s.Substring(0, (s.Length - 1));
             }
             else
             {
